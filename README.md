@@ -160,6 +160,7 @@ Coming soon
 ### Querying
 
 ```
+## Cypher ##
 Coming soon
 ```
 
