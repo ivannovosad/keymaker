@@ -124,7 +124,7 @@ Keymaker.service.delete_relationship_request(:relationship_id => rel.neo4j_id)
 
 ### Models
 
-```
+```ruby
 class People
   include Keymaker::Node
     
@@ -137,6 +137,9 @@ class People
   index :people, :on => :age
 
 end
+
+## in some controller ##
+node = People.new(:name => 'Trinity', :title => 'computer programmer and hacker', :age => '27')
 ```
 
 ### Nodes
@@ -159,10 +162,11 @@ Coming soon
 
 ### Querying
 
-```
-## Cypher ##
+```ruby
+## Cypher #
 
-Coming soon
+results = Keymaker.service.execute_cypher("START n=node:tests(name='Trinity') return n", {})
+
 ```
 
 ## Contributing
