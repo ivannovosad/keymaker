@@ -122,6 +122,22 @@ Keymaker.service.delete_relationship_request(:relationship_id => rel.neo4j_id)
 
 ```
 
+### Models
+
+```
+class People
+  include Keymaker::Node
+    
+  property :name, String
+  property :age, Integer
+  property :title, String
+  
+  # creates an index called people with keys name and age
+  index :people, :on => :name
+  index :people, :on => :age
+
+end
+```
 ### Nodes
 
 ```
