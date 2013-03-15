@@ -81,6 +81,7 @@ module Keymaker
 
     def execute_cypher(query, params)
       response = execute_cypher_request({query: query, params: params})
+      Keymaker::logger.info(response.to_yaml)
       Keymaker::CypherResponseParser.parse(response.body)
     end
 

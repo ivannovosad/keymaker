@@ -45,18 +45,27 @@ module Keymaker
 
   VERSION = "0.1.0"
 
-  def self.service
-    @service ||= Keymaker::Service.new(Keymaker::Configuration.new)
-  end
+  class << self
+  
+    attr_accessor :logger
+    
+    def service
+      @service ||= Keymaker::Service.new(Keymaker::Configuration.new)
+    end
 
-  def self.configure
-    @configuration = Keymaker::Configuration.new
-    yield @configuration
-    @service = Keymaker::Service.new(@configuration)
+    def configure
+      @configuration = Keymaker::Configuration.new
+      yield @configuration
+      @service = Keymaker::Service.new(@configuration)
+    end
+  
+    def configuration
+      @configuration
+    end
+    
+    def logger
+      @logger ||= Logger.new(ENV['KEYMAKER_LOG'] ? ENV['KEYMAKER_LOG_FILE'] || $stdout : '/dev/null')
+    end
+    
   end
-
-  def self.configuration
-    @configuration
-  end
-
 end
