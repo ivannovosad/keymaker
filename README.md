@@ -140,6 +140,7 @@ end
 
 ## in some controller ##
 node = People.new(:name => 'Trinity', :title => 'computer programmer and hacker', :age => '27')
+node.save
 ```
 
 ### Nodes
