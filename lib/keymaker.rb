@@ -1,6 +1,7 @@
 require 'faraday'
 require 'faraday_middleware'
 require 'hashie'
+require 'logger'
 require 'active_model'
 require 'active_model/validations'
 require 'active_model/callbacks'

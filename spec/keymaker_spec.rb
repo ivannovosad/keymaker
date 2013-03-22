@@ -178,8 +178,25 @@ describe Keymaker do
       it "performs the cypher query and responds" do
         do_it.first.email.should == john_email
       end
-    end
 
+    end
+    
+    context "node results returned (array)" do
+      let(:cypher_string) { "START n=node(*) RETURN n" }
+      
+      it "returns the node id as node_id" do
+        do_it.first.node_id.should == john_node_id.to_i  
+      end
+    end
+    
+    context "relationship returned (array)" do
+      let(:cypher_string) { "START n=node(*) MATCH n-[r]-o RETURN r" }
+
+      it "returns the relationship id as relationship_id" do
+        relationship = Keymaker.service.create_relationship(:loves, john_node_id, sarah_node_id)
+        do_it.first.relationship_id.should == relationship.neo4j_id
+      end
+    end
   end
 
   context "nodes" do
