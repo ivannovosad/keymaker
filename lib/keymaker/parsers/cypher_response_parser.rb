@@ -4,11 +4,13 @@ module Keymaker
     def self.parse(response_body)
       response_body.data.map do |result|
         if response_body.columns.one? && result.first.kind_of?(Hashie::Mash)
-          result.first.data
+          thing_id = result.first.self.split('/').slice(-2,2)
+          result.first.data.merge({thing_id[0] + '_id' => thing_id[1].to_i})
         else
           translate_response(response_body, result)
         end
       end
+      
     end
 
     def self.translate_response(response_body, result)
