@@ -32,10 +32,11 @@ module Keymaker
       base.property_traits = {}
       base.indices_traits = {}
 
-      base.property :active_record_id, Integer
+      #base.property :active_record_id, Integer
       base.property :node_id, Integer
       base.property :created_at, DateTime
       base.property :updated_at, DateTime
+      base.property :type, String
 
     end
 
@@ -124,7 +125,7 @@ module Keymaker
       end
 
       def update(attrs)
-        process_attrs(sanitize(attrs.merge(updated_at: Time.now.utc.to_i)))
+        process_attrs(sanitize(attrs.merge(updated_at: Time.now.utc.to_i, type: self.class.name)))
         neo_service.update_node_properties(node_id, sanitize(attributes))
       end
 
