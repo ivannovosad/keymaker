@@ -79,7 +79,7 @@ module Keymaker
         begin
           result = self.find_by_cypher("START n=node:#{o[:index_name]}(#{o[:attribute]}='#{o[:value]}') RETURN n")
         rescue Exception => msg
-          #Keymaker.logger.info "Node#find_by_index: not found, exception is: #{msg}"
+          Keymaker.logger.info "Node#find_by_index: not found, exception is: #{msg}"
           nil
         end
         result.blank? ? nil : result
