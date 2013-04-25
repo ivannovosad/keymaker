@@ -14,7 +14,7 @@ module Keymaker::Serialization
       when String
         v.to_time
       else
-        Time.now.utc
+        #Time.now.utc
       end
     end
   end
@@ -25,7 +25,9 @@ module Keymaker::Serialization
       if property == :active_record_id
         process_attr(property, attrs[:id].present? ? attrs[:id] : attrs[:active_record_id])
       else
-        process_attr(property, attrs[property])
+        if attrs[property]
+          process_attr(property, attrs[property])
+        end
       end
     end
   end

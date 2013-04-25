@@ -91,21 +91,25 @@ module Keymaker
     end
 
     def get(url, body)
+      Keymaker::logger.info("Keymaker::Service#GET: #{url} with: #{body}")
       faraday_response = connection.get(parse_url(url), body)
       Keymaker::Response.new(self, faraday_response)
     end
 
     def delete(url, body={})
+      Keymaker::logger.info("Keymaker::Service#DELETE: #{url} with: #{body}")
       faraday_response = connection.delete(parse_url(url), body)
       Keymaker::Response.new(self, faraday_response)
     end
 
     def post(url, body)
+      Keymaker::logger.info("Keymaker::Service#POST: #{url} with: #{body}")
       faraday_response = connection.post(parse_url(url), body)
       Keymaker::Response.new(self, faraday_response)
     end
 
     def put(url, body)
+      Keymaker::logger.info("Keymaker::Service#PUT: #{url} with: #{body}")
       faraday_response = connection.put(parse_url(url), body)
       Keymaker::Response.new(self, faraday_response)
     end

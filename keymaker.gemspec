@@ -67,6 +67,7 @@ Gem::Specification.new do |s|
     lib/keymaker/requests/service_root_request.rb
     lib/keymaker/requests/traverse_path_request.rb
     lib/keymaker/requests/update_node_properties_request.rb
+    lib/keymaker/validations/uniqueness.rb
     lib/keymaker/response.rb
     lib/keymaker/serialization.rb
     lib/keymaker/service.rb

@@ -3,6 +3,9 @@ require 'faraday_middleware'
 require 'hashie'
 require 'logger'
 require 'active_model'
+
+
+
 require 'active_model/validations'
 require 'active_model/callbacks'
 require 'active_support/core_ext/string/inflections'
@@ -36,6 +39,9 @@ require 'keymaker/requests/execute_gremlin_request'
 require 'keymaker/requests/traverse_path_request'
 require 'keymaker/requests/service_root_request'
 
+require 'keymaker/validations'
+require 'keymaker/validations/uniqueness'
+
 require 'keymaker/indexing'
 require 'keymaker/serialization'
 require 'keymaker/node'
@@ -43,7 +49,10 @@ require 'keymaker/node'
 require 'keymaker/railtie' if defined? Rails::Railtie
 
 module Keymaker
-
+  
+  extend ActiveSupport::Autoload
+  autoload :Validations
+  
   VERSION = "0.1.0"
 
   class << self
