@@ -79,10 +79,39 @@ module Keymaker
         begin
           result = self.find_by_cypher("START n=node:#{o[:index_name]}(#{o[:attribute]}='#{o[:value]}') RETURN n")
         rescue Exception => msg
-          Keymaker.logger.info "Node#find_by_index: not found, exception is: #{msg}"
+          #Keymaker.logger.info "Node#find_by_index: not found, exception is: #{msg}"
           nil
         end
         result.blank? ? nil : result
+      end
+      
+      # where takes attrs as in: {:name => 'Andrew', :type => 'MyNode'}
+      # the index name used will be that of the class name, downcased and pluralized
+      
+      def where(attrs)
+        lucene_query = ""
+        class_index = self.name.pluralize.downcase
+        index_values = index_row(class_index).map{ | i | i[:value]}
+        attrs.each do | k, v | 
+          if index_values.include? k
+            lucene_query << "#{k.to_s}='#{v}'"
+          else
+            raise IndexingError
+          end
+        end
+        begin
+          self.find_by_cypher("START n=node:#{class_index}(#{lucene_query}) RETURN n")
+        rescue
+          []
+        end
+      end
+      
+      def all
+        begin
+          self.find_all_by_cypher("START n=node:nodes(node_type='#{self.name}') RETURN n")
+        rescue
+          []
+        end      
       end
       
       def find_by_cypher(query, params={})

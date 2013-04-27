@@ -19,4 +19,10 @@ module Keymaker
   class ResourceNotFound < ClientError; end
   class ServerError < HttpError; end
   class BatchRequestError < ServerError; end
+  class KeymakerError < StandardError; end
+  class IndexingError < KeymakerError
+    def initialize
+      super(message)
+    end
+  end
 end

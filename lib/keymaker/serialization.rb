@@ -5,6 +5,9 @@ module Keymaker::Serialization
     base.define_model_callbacks :save, :create
   end
 
+# TODO the problem is that it assumes you want to store a time stamp in anything with date, time etc
+# but this breaks some things like Devise that creates null time stamps to verify user reg process
+# commenting the the else/Time.now.utc prevents the created_at/updated_at to be initialized.
   COERCION_PROCS = Hash.new(->(v){v}).tap do |procs|
     procs[Integer] = ->(v){ v.to_i }
     procs[DateTime] = ->(v) do
