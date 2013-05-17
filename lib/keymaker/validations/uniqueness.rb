@@ -17,7 +17,7 @@ module Keymaker
         end
         
         def validate_each(record, attribute, value)
-          Keymaker::logger.info("Keymaker:Uniqueness for #{attribute} with #{value}")
+          #Keymaker::logger.info("Keymaker:Uniqueness for #{attribute} with #{value}")
           finder_class = find_finder_class_for(record)
           value = finder_class.find_by_index({attribute: attribute, value: value})
           unless value.nil?

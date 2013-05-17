@@ -199,7 +199,8 @@ module Keymaker
 
       def create
         run_callbacks :create do
-          neo_service.create_node(sanitize(attributes.merge(type: self.class.name))).on_success do |response|
+          timestamp = Time.now.utc
+          neo_service.create_node(sanitize(attributes.merge(updated_at: timestamp, created_at: timestamp, type: self.class.name))).on_success do |response|
             self.node_id = response.neo4j_id
             self.new_node = false
           end
@@ -210,7 +211,13 @@ module Keymaker
       # note that update_node_properties is destructive in that it will remove any attribute not
       # defined in attrs from the present node!
       def update(attrs)
-        process_attrs(sanitize(attrs.merge(updated_at: Time.now.utc.to_i, type: self.class.name)))
+        #Keymaker::logger.info("Keymaker::Node#update before symbolize_keys: #{attrs.to_yaml}")
+        attrs = attrs.stringify_keys
+        #Keymaker::logger.info("Keymaker::Node#update before symbolize_keys: #{attrs.to_yaml}")
+        
+        #Keymaker::logger.info("Keymaker::Node#update before process_attrs: #{attributes.to_yaml}")
+        process_attrs(sanitize(attrs.merge('updated_at' => Time.now.utc, 'type' => self.class.name)))
+        #Keymaker::logger.info("Keymaker::Node#update after process_attrs: #{attributes.to_yaml}")
         neo_service.update_node_properties(node_id, sanitize(attributes))
       end
       

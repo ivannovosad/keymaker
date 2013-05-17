@@ -36,7 +36,12 @@ module Keymaker::Serialization
   end
 
   def process_attr(key, value)
-    send("#{key}=", coerce(value,self.class.property_traits[key]))
+    
+    if key == 'updated_at' || key == 'created_at'
+      value = Time.now.utc
+    else
+      send("#{key}=", coerce(value,self.class.property_traits[key]))
+    end
   end
 
   def coerce(value,type)
