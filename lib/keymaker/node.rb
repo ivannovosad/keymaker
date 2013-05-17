@@ -221,6 +221,8 @@ module Keymaker
         neo_service.update_node_properties(node_id, sanitize(attributes))
       end
       
+      alias update_attributes update
+      
       def update_attribute(attr, val)
         update({attr => val})
       end
