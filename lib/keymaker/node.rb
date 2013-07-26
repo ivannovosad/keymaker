@@ -116,7 +116,7 @@ module Keymaker
 
       def create
         run_callbacks :create do
-          neo_service.create_node(sanitize(attributes)).on_success do |response|
+          neo_service.create_node(sanitize(attributes.merge(type: self.class.name))).on_success do |response|
             self.node_id = response.neo4j_id
             self.new_node = false
           end
